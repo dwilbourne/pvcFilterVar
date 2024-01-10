@@ -55,6 +55,30 @@ class FilterVarValidateUrlTest extends TestCase
     }
 
     /**
+     * testPathRequiredIsRequired
+     * @covers \pvc\filtervar\FilterVarValidateUrl::requirePath
+     * @covers \pvc\filtervar\FilterVarValidateUrl::isPathRequired
+     */
+    public function testPathRequiredIsRequired(): void
+    {
+        self::assertFalse($this->filterVar->isPathRequired());
+        $this->filterVar->requirePath();
+        self::assertTrue($this->filterVar->isPathRequired());
+    }
+
+    /**
+     * testQueryRequiredIsQueryRequired
+     * @covers \pvc\filtervar\FilterVarValidateUrl::requireQuery
+     * @covers \pvc\filtervar\FilterVarValidateUrl::isQueryRequired
+     */
+    public function testQueryRequiredIsQueryRequired(): void
+    {
+        self::assertFalse($this->filterVar->isQueryRequired());
+        $this->filterVar->requireQuery();
+        self::assertTrue($this->filterVar->isQueryRequired());
+    }
+
+    /**
      * testPathRequired
      * @param string $url
      * @param bool $expectedResult

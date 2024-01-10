@@ -26,6 +26,15 @@ class FilterVarTest extends TestCase
     }
 
     /**
+     * testConstruct
+     * @covers \pvc\filtervar\FilterVar::__construct
+     */
+    public function testConstruct(): void
+    {
+        self::assertInstanceOf(FilterVar::class, $this->filterVar);
+    }
+
+    /**
      * testSetGetFilter
      * @covers \pvc\filtervar\FilterVar::setFilter
      * @covers \pvc\filtervar\FilterVar::getFilter

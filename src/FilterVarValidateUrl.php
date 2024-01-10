@@ -43,7 +43,7 @@ class FilterVarValidateUrl extends FilterVarValidate
      */
     public function isPathRequired(): bool
     {
-        return in_array(FILTER_FLAG_PATH_REQUIRED, $this->getOptions());
+        return in_array(FILTER_FLAG_PATH_REQUIRED, $this->getFlags());
     }
 
     /**
@@ -60,6 +60,6 @@ class FilterVarValidateUrl extends FilterVarValidate
      */
     public function isQueryRequired(): bool
     {
-        return in_array(FILTER_FLAG_QUERY_REQUIRED, $this->getOptions());
+        return in_array(FILTER_FLAG_QUERY_REQUIRED, $this->getFlags());
     }
 }
