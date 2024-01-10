@@ -5,10 +5,11 @@
  */
 declare (strict_types=1);
 
+namespace pvcTests\filtervar;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use pvc\filtervar\FilterVarValidate;
 use PHPUnit\Framework\TestCase;
+use pvc\filtervar\FilterVarValidate;
 
 class FilterVarValidateTest extends TestCase
 {
@@ -18,6 +19,18 @@ class FilterVarValidateTest extends TestCase
     {
         $filter = FILTER_VALIDATE_URL;
         $this->filterVar = new FilterVarValidate($filter);
+    }
+
+    /**
+     * testSetGetlabel
+     * @covers \pvc\filtervar\FilterVarValidate::setLabel
+     * @covers \pvc\filtervar\FilterVarValidate::getLabel
+     */
+    public function testSetGetlabel(): void
+    {
+        $label = 'foo';
+        $this->filterVar->setLabel($label);
+        self::assertEquals($label, $this->filterVar->getLabel());
     }
 
     /**

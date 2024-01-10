@@ -5,6 +5,7 @@
  */
 declare (strict_types=1);
 
+namespace pvcTests\filtervar;
 
 use pvc\filtervar\FilterVarValidateUrl;
 use PHPUnit\Framework\TestCase;

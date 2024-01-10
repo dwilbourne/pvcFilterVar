@@ -1,9 +1,10 @@
 <?php
 /**
- * @package: pvc
  * @author: Doug Wilbourne (dougwilbourne@gmail.com)
- * @version: 1.0
  */
+declare(strict_types=1);
+
+namespace pvcTests\filtervar;
 
 use PHPUnit\Framework\TestCase;
 use pvc\filtervar\FilterVar;
@@ -11,6 +12,7 @@ use pvc\filtervar\FilterVar;
 /**
  * Class FilterVarTest
  */
+
 class FilterVarTest extends TestCase
 {
     /**
@@ -48,7 +50,7 @@ class FilterVarTest extends TestCase
 
     /**
      * testAddOptionGetOptionsArray
-     * @covers \pvc\filtervar\FilterVar::getOptionsArray
+     * @covers \pvc\filtervar\FilterVar::getOptions
      */
     public function testGetOptionsArrayReturnsEmptyArrayAsDefault(): void
     {
