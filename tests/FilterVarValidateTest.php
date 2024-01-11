@@ -18,7 +18,8 @@ class FilterVarValidateTest extends TestCase
     public function setUp(): void
     {
         $filter = FILTER_VALIDATE_URL;
-        $this->filterVar = new FilterVarValidate($filter);
+        $this->filterVar = new FilterVarValidate();
+        $this->filterVar->setFilter($filter);
     }
 
     /**

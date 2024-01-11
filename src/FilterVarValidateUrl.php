@@ -25,7 +25,7 @@ class FilterVarValidateUrl extends FilterVarValidate
      */
     public function __construct()
     {
-        parent::__construct(FILTER_VALIDATE_URL);
+        $this->setFilter(FILTER_VALIDATE_URL);
         $this->setLabel('url');
     }
 

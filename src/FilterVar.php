@@ -31,15 +31,6 @@ class FilterVar
     protected array $flags = [];
 
     /**
-     * @param int $filter
-     * @throws InvalidFilterException
-     */
-    public function __construct(int $filter)
-    {
-        $this->setFilter($filter);
-    }
-
-    /**
      * setFilter
      * @param int $filter
      * @throws InvalidFilterException
