@@ -19,17 +19,45 @@ class FilterVarValidateBoolTest extends TestCase
         $this->filterVar = new FilterVarValidateBool();
     }
 
-    public function testTrue(string $input, bool $expectedResult, string $comment): void
+    /**
+     * testConstruct
+     * @covers \pvc\filtervar\FilterVarValidateBool::__construct
+     */
+    public function testConstruct(): void
+    {
+        self::assertInstanceOf(FilterVarValidateBool::class, $this->filterVar);
+    }
+
+    /**
+     * testValidate
+     * @param string $input
+     * @param bool $expectedResult
+     * @param string $comment
+     * @dataProvider trueTestDataProvider
+     * @covers       \pvc\filtervar\FilterVarValidateBool::validate
+     */
+    public function testValidate(string $input, bool $expectedResult, string $comment): void
     {
         self::assertEquals($expectedResult, $this->filterVar->validate($input), $comment);
     }
 
+    /**
+     * trueTestDataProvider
+     * @return array[]
+     */
     public function trueTestDataProvider(): array
     {
         return [
             ['true', true, 'failed to validate lower case true'],
             ['tRuE', true, 'failed to validate mixed case tRuE'],
             ['yEs', true, 'failed to validate mixed case yEs'],
+            ['oN', true, 'failed to validate mixed case oN'],
+            ['1', true, 'failed to validate \'1\''],
+            ['false', true, 'failed to validate false'],
+            ['no', true, 'failed to validate no'],
+            ['off', true, 'failed to validate off'],
+            ['0', true, 'failed to validate \'0\''],
+            ['foo', false, 'wrongly validated foo'],
         ];
     }
 }
