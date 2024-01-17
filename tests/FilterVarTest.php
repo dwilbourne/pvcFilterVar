@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace pvcTests\filtervar;
 
 use PHPUnit\Framework\TestCase;
+use pvc\filtervar\err\InvalidLabelException;
 use pvc\filtervar\FilterVar;
 
 /**
@@ -36,6 +37,31 @@ class FilterVarTest extends TestCase
         $this->filterVar->setFilter($testFilter);
         self::assertEquals($testFilter, $this->filterVar->getFilter());
     }
+
+    /**
+     * testSetlabelThrowsExceptionWithEmptyString
+     * @throws InvalidLabelException
+     * @covers \pvc\filtervar\FilterVar::setLabel
+     */
+    public function testSetlabelThrowsExceptionWithEmptyString(): void
+    {
+        self::expectException(InvalidLabelException::class);
+        $this->filterVar->setLabel('');
+    }
+
+    /**
+     * testSetGetlabel
+     * @covers \pvc\filtervar\FilterVar::setLabel
+     * @covers \pvc\filtervar\FilterVar::getLabel
+     */
+    public function testSetGetlabel(): void
+    {
+        $label = 'foo';
+        $this->filterVar->setLabel($label);
+        self::assertEquals($label, $this->filterVar->getLabel());
+    }
+
+
 
     /**
      * testSetGetFilterThrowsExceptionWithBadFilter

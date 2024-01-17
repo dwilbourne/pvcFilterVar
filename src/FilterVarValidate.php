@@ -13,32 +13,6 @@ namespace pvc\filtervar;
 class FilterVarValidate extends FilterVar
 {
     /**
-     * @var string
-     * describes what the thing is that is being validated.  For example, for a url, set the label to 'url'
-     */
-    protected string $label;
-
-    /**
-     * getLabel
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    /**
-     * setLabel
-     * @param string $label
-     */
-    public function setLabel(string $label): void
-    {
-        $this->label = $label;
-    }
-
-
-
-    /**
      * validate
      * @param string $value
      * @return bool

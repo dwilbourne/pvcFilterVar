@@ -23,6 +23,7 @@ class _FilterVarXData extends XDataAbstract implements XDataInterface
     {
         return [
             InvalidFilterException::class => 1000,
+            InvalidLabelException::class => 1001,
         ];
     }
 
@@ -30,6 +31,7 @@ class _FilterVarXData extends XDataAbstract implements XDataInterface
     {
         return [
             InvalidFilterException::class => 'error trying to set filter to an invalid value.',
+            InvalidLabelException::class => 'error setting label to an invalid value - cannot be an empty string.'
         ];
     }
 }

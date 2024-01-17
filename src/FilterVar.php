@@ -9,6 +9,7 @@ namespace pvc\filtervar;
 
 
 use pvc\filtervar\err\InvalidFilterException;
+use pvc\filtervar\err\InvalidLabelException;
 
 /**
  * Class FilterVar
@@ -29,6 +30,33 @@ class FilterVar
      * @var array<int, int>
      */
     protected array $flags = [];
+
+    /**
+     * @var string
+     * describes what the thing is that is being validated.  For example, for a url, set the label to 'url'
+     */
+    protected string $label;
+
+    /**
+     * getLabel
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * setLabel
+     * @param string $label
+     */
+    public function setLabel(string $label): void
+    {
+        if (empty($label)) {
+            throw new InvalidLabelException();
+        }
+        $this->label = $label;
+    }
 
     /**
      * setFilter

@@ -23,18 +23,6 @@ class FilterVarValidateTest extends TestCase
     }
 
     /**
-     * testSetGetlabel
-     * @covers \pvc\filtervar\FilterVarValidate::setLabel
-     * @covers \pvc\filtervar\FilterVarValidate::getLabel
-     */
-    public function testSetGetlabel(): void
-    {
-        $label = 'foo';
-        $this->filterVar->setLabel($label);
-        self::assertEquals($label, $this->filterVar->getLabel());
-    }
-
-    /**
      * testValidate
      * @covers \pvc\filtervar\FilterVarValidate::validate
      */
