@@ -165,5 +165,4 @@ class FilterVar
 
         return $optionsFlagsArray;
     }
-
 }

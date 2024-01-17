@@ -7,10 +7,12 @@ declare(strict_types=1);
 
 namespace pvc\filtervar;
 
+use pvc\interfaces\filtervar\FilterVarValidateInterface;
+
 /**
  * Class FilterVarValidate
  */
-class FilterVarValidate extends FilterVar
+class FilterVarValidate extends FilterVar implements FilterVarValidateInterface
 {
     /**
      * validate
