@@ -10,11 +10,12 @@ namespace pvc\filtervar;
 
 use pvc\filtervar\err\InvalidFilterException;
 use pvc\filtervar\err\InvalidLabelException;
+use pvc\interfaces\filtervar\FilterVarInterface;
 
 /**
  * Class FilterVar
  */
-class FilterVar
+class FilterVar implements FilterVarInterface
 {
     /**
      * @var int
