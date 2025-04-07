@@ -7,8 +7,8 @@ declare (strict_types=1);
 
 namespace pvcTests\filtervar;
 
-use pvc\filtervar\FilterVarValidateUrl;
 use PHPUnit\Framework\TestCase;
+use pvc\filtervar\FilterVarValidateUrl;
 
 class FilterVarValidateUrlTest extends TestCase
 {
@@ -53,6 +53,27 @@ class FilterVarValidateUrlTest extends TestCase
             ['urn:oasis:names:specification:docbook:dtd:xml:4.1.2', false, 'succeeded on a urn and should not have.'],
         ];
     }
+
+    /**
+     * @return void
+     * @covers \pvc\filtervar\FilterVarValidateUrl::validate
+     */
+    public function testIllegalCharactersInHostName(): void
+    {
+        $scheme = 'http://';
+        $hostFirstPart = 'no';
+        $hostLastPart = 'where.com';
+
+        /**
+         * "BELL" control character - illegal
+         */
+        $illegalChar = chr(0x7);
+        $host = $hostFirstPart . $illegalChar . $hostLastPart;
+
+        $url = $scheme . $host;
+        self::assertFalse($this->filterVar->validate($url));
+    }
+
 
     /**
      * testPathRequiredIsRequired
