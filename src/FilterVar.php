@@ -166,4 +166,15 @@ class FilterVar implements FilterVarInterface
 
         return $optionsFlagsArray;
     }
+
+    /**
+     * @param  string  $value
+     *
+     * @return mixed
+     */
+    public function filter(string $value): mixed
+    {
+        return filter_var($value, $this->getFilter(),
+            $this->getOptionsFlagsArray());
+    }
 }
