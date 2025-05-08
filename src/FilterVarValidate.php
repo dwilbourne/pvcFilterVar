@@ -18,15 +18,22 @@ class FilterVarValidate extends FilterVar implements FilterVarValidateInterface
 {
     /**
      * validate
-     * @param string $value
+     *
+     * @param  mixed  $value
+     *
      * @return bool
      */
-    public function validate(string $value): bool
+    public function validate(mixed $value): bool
     {
         return (false !== filter_var($value, $this->getFilter(), $this->getOptionsFlagsArray()));
     }
 
-    public function testValue(string $value): bool
+    /**
+     * @param  mixed  $value
+     *
+     * @return bool
+     */
+    public function testValue(mixed $value): bool
     {
         return $this->validate($value);
     }
