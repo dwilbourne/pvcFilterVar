@@ -8,8 +8,10 @@ declare (strict_types=1);
 
 namespace pvcTests\filtervar\err;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
 use pvc\err\XDataTestMaster;
 use pvc\filtervar\err\_FilterVarXData;
+use pvc\filtervar\err\InvalidFilterException;
 
 /**
  * Class _RegexXDataTest
@@ -18,10 +20,10 @@ class _FilterVarXDataTest  extends XDataTestMaster
 {
     /**
      * @function testPvcRegexExceptionLibrary
-     * @covers \pvc\filtervar\err\_FilterVarXData::getXMessageTemplates
-     * @covers \pvc\filtervar\err\_FilterVarXData::getLocalXCodes
-     * @covers \pvc\filtervar\err\InvalidFilterException::__construct
      */
+    #[CoversMethod(_FilterVarXData::class, 'getXMessageTemplates')]
+    #[CoversMethod(_FilterVarXData::class, 'getLocalXCodes')]
+    #[CoversMethod(InvalidFilterException::class, '__construct')]
     public function testPvcRegexExceptionLibrary(): void
     {
         $xData = new _FilterVarXData();

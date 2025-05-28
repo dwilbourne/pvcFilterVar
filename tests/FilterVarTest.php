@@ -6,31 +6,40 @@ declare(strict_types=1);
 
 namespace pvcTests\filtervar;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
+use pvc\filtervar\err\InvalidFilterException;
 use pvc\filtervar\err\InvalidLabelException;
 use pvc\filtervar\FilterVar;
 
 /**
  * Class FilterVarTest
  */
-
 class FilterVarTest extends TestCase
 {
-    /**
-     * @var FilterVar
-     */
     protected FilterVar $filterVar;
     public function setUp(): void
     {
-        $filter = FILTER_SANITIZE_EMAIL;
-        $this->filterVar = new FilterVar($filter);
+        $this->filterVar = new FilterVar();
+    }
+
+    /**
+     * testSetFilterThrowsExceptionWithBadFilter
+     *
+     * @throws InvalidFilterException
+     */
+    public function testSetFilterThrowsExceptionWithBadFilter(): void
+    {
+        self::expectException(InvalidFilterException::class);
+        $this->filterVar->setFilter(71);
     }
 
     /**
      * testSetGetFilter
-     * @covers \pvc\filtervar\FilterVar::setFilter
-     * @covers \pvc\filtervar\FilterVar::getFilter
      */
+    #[CoversMethod(FilterVar::class, 'setFilter')]
+    #[CoversMethod(FilterVar::class, 'getFilter')]
+
     public function testSetGetFilter(): void
     {
         $testFilter = FILTER_VALIDATE_EMAIL;
@@ -41,8 +50,8 @@ class FilterVarTest extends TestCase
     /**
      * testSetlabelThrowsExceptionWithEmptyString
      * @throws InvalidLabelException
-     * @covers \pvc\filtervar\FilterVar::setLabel
      */
+    #[CoversMethod(FilterVar::class, 'setLabel')]
     public function testSetlabelThrowsExceptionWithEmptyString(): void
     {
         self::expectException(InvalidLabelException::class);
@@ -51,9 +60,9 @@ class FilterVarTest extends TestCase
 
     /**
      * testSetGetlabel
-     * @covers \pvc\filtervar\FilterVar::setLabel
-     * @covers \pvc\filtervar\FilterVar::getLabel
      */
+    #[CoversMethod(FilterVar::class, 'setLabel')]
+    #[CoversMethod(FilterVar::class, 'getLabel')]
     public function testSetGetlabel(): void
     {
         $label = 'foo';
@@ -62,33 +71,22 @@ class FilterVarTest extends TestCase
     }
 
 
-
-    /**
-     * testSetGetFilterThrowsExceptionWithBadFilter
-     * @throws \pvc\filtervar\err\InvalidFilterException
-     * @covers \pvc\filtervar\FilterVar::setFilter
-     */
-    public function testSetGetFilterThrowsExceptionWithBadFilter(): void
-    {
-        self::expectException(\pvc\filtervar\err\InvalidFilterException::class);
-        $this->filterVar->setFilter(71);
-    }
-
     /**
      * testAddOptionGetOptionsArray
-     * @covers \pvc\filtervar\FilterVar::getOptions
      */
+    #[CoversMethod(FilterVar::class, 'getOptions')]
     public function testGetOptionsArrayReturnsEmptyArrayAsDefault(): void
     {
+        /** @phpstan-ignore-next-line */
         self::assertIsArray($this->filterVar->getOptions());
         self::assertEmpty($this->filterVar->getOptions());
     }
 
     /**
      * testAddOptionGetOptions
-     * @covers \pvc\filtervar\FilterVar::addOption
-     * @covers \pvc\filtervar\FilterVar::getOptions
      */
+    #[CoversMethod(FilterVar::class, 'addOption')]
+    #[CoversMethod(FilterVar::class, 'getOptions')]
     public function testAddOptionGetOptions(): void
     {
         $optionName = 'foo';
@@ -105,10 +103,10 @@ class FilterVarTest extends TestCase
     }
 
     /**
-     * testAddFlagReturnsNullByDefault
-     * @covers \pvc\filtervar\FilterVar::getFlags
+     * testGetFlagsReturnsEmptyArrayByDefault
      */
-    public function testAddFlagReturnsEmptyArrayByDefault(): void
+    #[CoversMethod(FilterVar::class, 'getFlags')]
+    public function testGetFlagsReturnsEmptyArrayByDefault(): void
     {
         self::assertIsArray($this->filterVar->getFlags());
         self::assertEmpty($this->filterVar->getFlags());
@@ -116,9 +114,9 @@ class FilterVarTest extends TestCase
 
     /**
      * testAddFlag
-     * @covers \pvc\filtervar\FilterVar::addFlag
-     * @covers \pvc\filtervar\FilterVar::getFlags
      */
+    #[CoversMethod(FilterVar::class, 'addFlag')]
+    #[CoversMethod(FilterVar::class, 'getFlags')]
     public function testAddFlagGetFlags(): void
     {
         $this->filterVar->setFilter(FILTER_SANITIZE_ENCODED);
@@ -134,8 +132,8 @@ class FilterVarTest extends TestCase
 
     /**
      * testGetOptionsFlagsArrayReturnsEmptyArrayByDefault
-     * @covers \pvc\filtervar\FilterVar::getOptionsFlagsArray
      */
+    #[CoversMethod(FilterVar::class, 'getOptionsFlagsArray')]
     public function testGetOptionsFlagsArrayReturnsEmptyArrayByDefault(): void
     {
         self::assertIsArray($this->filterVar->getOptionsFlagsArray());
@@ -144,8 +142,8 @@ class FilterVarTest extends TestCase
 
     /**
      * testGetOptionsFlagsArray
-     * @covers \pvc\filtervar\FilterVar::getOptionsFlagsArray
      */
+    #[CoversMethod(FilterVar::class, 'getOptionsFlagsArray')]
     public function testGetOptionsFlagsArray(): void
     {
         $this->filterVar->setFilter(FILTER_SANITIZE_ENCODED);
@@ -161,6 +159,20 @@ class FilterVarTest extends TestCase
         ];
 
         self::assertEqualsCanonicalizing($expectedResult, $this->filterVar->getOptionsFlagsArray());
+    }
+
+    /**
+     * @return void
+     * @throws InvalidFilterException
+     */
+    #[CoversMethod(FilterVar::class, 'filter')]
+    public function testFilter(): void
+    {
+        $this->filterVar->setFilter(FILTER_SANITIZE_NUMBER_FLOAT);
+        $this->filterVar->addFlag(FILTER_FLAG_ALLOW_FRACTION);
+        $value = '12x.34';
+        $expectedResult = '12.34';
+        self::assertEquals($expectedResult, $this->filterVar->filter($value));
     }
 
 }

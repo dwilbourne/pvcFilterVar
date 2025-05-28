@@ -7,8 +7,10 @@ declare (strict_types=1);
 
 namespace pvcTests\filtervar;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 use pvc\filtervar\FilterVarValidateUrl;
+
 
 class FilterVarValidateUrlTest extends TestCase
 {
@@ -24,10 +26,10 @@ class FilterVarValidateUrlTest extends TestCase
      * @param string $url
      * @param bool $expectedResult
      * @param string $comment
-     * @dataProvider urlDataProvider
-     * @covers \pvc\filtervar\FilterVarValidateUrl::__construct
-     * @covers \pvc\filtervar\FilterVarValidate::validate
      */
+    #[CoversMethod(FilterVarValidateUrl::class, '__construct')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'validate')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
     public function testConstructorAndDefaultBehavior(string $url, bool $expectedResult, string $comment): void
     {
         $actualResult = $this->filterVar->validate($url);
@@ -38,7 +40,7 @@ class FilterVarValidateUrlTest extends TestCase
      * urlDataProvider
      * @return array
      */
-    public function urlDataProvider(): array
+    public static function urlDataProvider(): array
     {
         return [
             ['ftp://ftp.is.co.za.example.org/rfc/rfc1808.txt', true, 'failed url with ftp scheme, host, and path to rfc1088.txt'],
@@ -56,8 +58,8 @@ class FilterVarValidateUrlTest extends TestCase
 
     /**
      * @return void
-     * @covers \pvc\filtervar\FilterVarValidateUrl::validate
      */
+    #[CoversMethod(FilterVarValidateUrl::class, 'validate')]
     public function testIllegalCharactersInHostName(): void
     {
         $scheme = 'http://';
@@ -77,9 +79,9 @@ class FilterVarValidateUrlTest extends TestCase
 
     /**
      * testPathRequiredIsRequired
-     * @covers \pvc\filtervar\FilterVarValidateUrl::requirePath
-     * @covers \pvc\filtervar\FilterVarValidateUrl::isPathRequired
      */
+    #[CoversMethod(FilterVarValidateUrl::class, 'requirePath')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'isPathRequired')]
     public function testPathRequiredIsRequired(): void
     {
         self::assertFalse($this->filterVar->isPathRequired());
@@ -89,9 +91,9 @@ class FilterVarValidateUrlTest extends TestCase
 
     /**
      * testQueryRequiredIsQueryRequired
-     * @covers \pvc\filtervar\FilterVarValidateUrl::requireQuery
-     * @covers \pvc\filtervar\FilterVarValidateUrl::isQueryRequired
      */
+    #[CoversMethod(FilterVarValidateUrl::class, 'requireQuery')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'isQueryRequired')]
     public function testQueryRequiredIsQueryRequired(): void
     {
         self::assertFalse($this->filterVar->isQueryRequired());
@@ -104,9 +106,9 @@ class FilterVarValidateUrlTest extends TestCase
      * @param string $url
      * @param bool $expectedResult
      * @param string $comment
-     * @dataProvider urlPathDataProvider
-     * @covers \pvc\filtervar\FilterVarValidate::validate
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('urlPathDataProvider')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'validate')]
     public function testPathRequired(string $url, bool $expectedResult, string $comment): void
     {
         $this->filterVar->requirePath();
@@ -114,7 +116,7 @@ class FilterVarValidateUrlTest extends TestCase
         self::assertEquals($expectedResult, $actualResult, $comment);
     }
 
-    public function urlPathDataProvider(): array
+    public static function urlPathDataProvider(): array
     {
         return [
             ['http://www.example.com', false, 'wrongly succeeded validating a url with no path'],
@@ -129,10 +131,12 @@ class FilterVarValidateUrlTest extends TestCase
      * @param string $url
      * @param bool $expectedResult
      * @param string $comment
-     * @dataProvider urlQueryDataProvider
-     * @covers \pvc\filtervar\FilterVarValidate::validate
      *
      */
+    #[CoversMethod(FilterVarValidateUrl::class, 'requireQuery')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'isQueryRequired')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'validate')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('urlQueryDataProvider')]
     public function testQueryRequired(string $url, bool $expectedResult, string $comment): void
     {
         $this->filterVar->requireQuery();
@@ -144,7 +148,7 @@ class FilterVarValidateUrlTest extends TestCase
      * urlQueryDataProvider
      * @return array[]
      */
-    public function urlQueryDataProvider(): array
+    public static function urlQueryDataProvider(): array
     {
         return [
             ['http://www.example.com', false, 'wrongly succeeded validating a url with no query'],
@@ -159,9 +163,9 @@ class FilterVarValidateUrlTest extends TestCase
      * @param string $url
      * @param bool $expectedResult
      * @param string $comment
-     * @dataProvider urlPathQueryDataProvider
-     * @covers \pvc\filtervar\FilterVarValidate::validate
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('urlPathQueryDataProvider')]
+    #[CoversMethod(FilterVarValidateUrl::class, 'validate')]
     public function testPathAndQueryRequired(string $url, bool $expectedResult, string $comment): void
     {
         $this->filterVar->requirePath();
@@ -174,7 +178,7 @@ class FilterVarValidateUrlTest extends TestCase
      * urlPathQueryDataProvider
      * @return array[]
      */
-    public function urlPathQueryDataProvider(): array
+    public static function urlPathQueryDataProvider(): array
     {
         return [
             ['http://www.example.com/news', false, 'wrongly succeeded validating a url with path but no query'],

@@ -25,6 +25,7 @@ class FilterVarValidateBool extends FilterVarValidate
         $this->setLabel('boolean');
     }
 
+    #[\Override]
     public function validate(mixed $value): bool
     {
         return !is_null(filter_var($value, $this->getFilter(), $this->getOptionsFlagsArray()));

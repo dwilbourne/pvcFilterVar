@@ -17,9 +17,6 @@ use pvc\interfaces\filtervar\FilterVarInterface;
  */
 class FilterVar implements FilterVarInterface
 {
-    /**
-     * @var int
-     */
     protected int $filter;
 
     /**
@@ -53,7 +50,7 @@ class FilterVar implements FilterVarInterface
      */
     public function setLabel(string $label): void
     {
-        if (empty($label)) {
+        if ($label === '') {
             throw new InvalidLabelException();
         }
         $this->label = $label;
@@ -66,10 +63,12 @@ class FilterVar implements FilterVarInterface
      */
     public function setFilter(int $filter): void
     {
+        /** @var array<string, int> $filterConstants */
+        $filterConstants = get_defined_constants(true)['filter'];
         /**
-         * keys are the constant values, values are string name of each constant
+         * when flipped, keys are the constant values, values are string name of each constant
          */
-        $filtervarConstants = array_flip(get_defined_constants(true)['filter']);
+        $filtervarConstants = array_flip($filterConstants);
 
         /**
          * callback will be used to remove constants which are flags and options and leave only those constants
@@ -157,10 +156,7 @@ class FilterVar implements FilterVarInterface
         }
 
         if ($this->getFlags()) {
-            $callback = function(int $carry, int $item): int {
-                $carry |= $item;
-                return $carry;
-            };
+            $callback = (fn(int $carry, int $item): int => $carry | $item);
             $optionsFlagsArray['flags'] = array_reduce($this->getFlags(), $callback, 0);
         }
 

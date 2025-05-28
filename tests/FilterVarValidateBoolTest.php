@@ -7,6 +7,7 @@ declare (strict_types=1);
 
 namespace pvcTests\filtervar;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
 use pvc\filtervar\FilterVarValidateBool;
 
@@ -21,8 +22,8 @@ class FilterVarValidateBoolTest extends TestCase
 
     /**
      * testConstruct
-     * @covers \pvc\filtervar\FilterVarValidateBool::__construct
      */
+    #[CoversMethod(FilterVarValidateBool::class, '__construct')]
     public function testConstruct(): void
     {
         self::assertInstanceOf(FilterVarValidateBool::class, $this->filterVar);
@@ -33,9 +34,9 @@ class FilterVarValidateBoolTest extends TestCase
      * @param string $input
      * @param bool $expectedResult
      * @param string $comment
-     * @dataProvider trueTestDataProvider
-     * @covers       \pvc\filtervar\FilterVarValidateBool::validate
      */
+    #[CoversMethod(FilterVarValidateBool::class, 'validate')]
+    #[\PHPUnit\Framework\Attributes\DataProvider('trueTestDataProvider')]
     public function testValidate(string $input, bool $expectedResult, string $comment): void
     {
         self::assertEquals($expectedResult, $this->filterVar->validate($input), $comment);
@@ -45,7 +46,7 @@ class FilterVarValidateBoolTest extends TestCase
      * trueTestDataProvider
      * @return array[]
      */
-    public function trueTestDataProvider(): array
+    public static function trueTestDataProvider(): array
     {
         return [
             ['true', true, 'failed to validate lower case true'],
