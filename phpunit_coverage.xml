@@ -11,8 +11,6 @@
         </report>
     </coverage>
 
-    <logging/>
-
     <source restrictDeprecations="true"
             restrictNotices="true"
             restrictWarnings="true">
